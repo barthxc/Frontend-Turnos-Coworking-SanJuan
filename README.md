@@ -13,7 +13,7 @@ Este proyecto es el frontend para la aplicación Breadcrumbs Coworking en San Ju
 - **React:** Una biblioteca de JavaScript para construir interfaces de usuario interactivas y de una sola página (SPA).
 - **Axios:** Un cliente HTTP basado en promesas que funciona tanto en el navegador como en Node.js, que facilita la realización de solicitudes HTTP.
 - **react-router-dom:** Una biblioteca que proporciona enrutamiento de componentes para aplicaciones React de una sola página (SPA).
-- **Sonner:** (Nota: No estoy familiarizado con esta tecnología, asegúrate de proporcionar la información correcta o el enlace a la biblioteca).
+- **Sonner:** (Componnete de React para el usode toast).
 - **Vite:** Una herramienta de compilación rápida y flexible que se centra en el rendimiento de desarrollo.
 
 ## Instalación
