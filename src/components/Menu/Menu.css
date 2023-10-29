@@ -1,0 +1,38 @@
+.Menu {
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+}
+
+.Menu-header {
+  background-color: #282c34;
+  color: white;
+  padding: 1rem;
+}
+
+.menu ul {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem; /* Espacio entre los elementos del menú */
+}
+
+.menu li {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.menu li:hover {
+  color: aqua;
+}
+
+
+@media screen and (max-width: 768px) {
+  .menu ul {
+    flex-direction: column; /* Cambiamos la dirección a columna */
+    align-items: center; /* Centramos los elementos */
+  }
+
+  .menu li {
+
+  }
+}

@@ -1,0 +1,97 @@
+/* Modal.css */
+
+.modal-estacion {
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  overflow: auto;
+  max-width: 600px; /* Establece un ancho máximo */
+  width: 90%; /* Ajusta el ancho según tus necesidades */
+  box-sizing: border-box;
+}
+
+/* Modal.css */
+
+/* ... Otros estilos ... */
+
+/* Estilos para el select */
+.form-group select {
+width: 100%;
+padding: 8px;
+box-sizing: border-box;
+font-size: 16px;
+border: 1px solid #ccc;
+border-radius: 4px;
+background-color: #fff;
+color: #333;
+cursor: pointer;
+}
+
+
+
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  font-weight: bold;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.reservada {
+  text-decoration: line-through; /* Esto añade una línea a través del texto */
+  color: #d81515; /* Esto cambia el color del texto a un tono más apagado */
+}
+
+
+button[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+button[type="submit"]:focus {
+  outline: none;
+}
+
+.radio-buttons{
+  display: flex;
+  gap: 2rem;
+}
