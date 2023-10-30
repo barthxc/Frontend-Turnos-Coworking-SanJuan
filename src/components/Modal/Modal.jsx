@@ -3,6 +3,7 @@ import "./Modal.css";
 import axios from "axios"; // Importa Axios
 import { Toaster, toast } from 'sonner'
 import Alerta from "../Alerta/Alerta"; // Importa tu componente Alerta
+import clienteAxios from "../../config/axios";
 
 const Modal = ({ id, onClose, nombreEstacion, tieneEquipo, contrasena }) => {
   const [estacionId, setEstacionId] = useState(null);
@@ -27,7 +28,7 @@ const Modal = ({ id, onClose, nombreEstacion, tieneEquipo, contrasena }) => {
   const obtenerDatos = async () => {
     try {
       // Obtener reservas
-      const reservasResponse = await axios.get(`http://localhost:4000/api/reservas/${id}`);
+      const reservasResponse = await clienteAxios.get(`/reservas/${id}`);
       setdatosReserva(reservasResponse.data);
 
       // Obtener fechas disponibles
@@ -83,7 +84,7 @@ useEffect(() => {
   const obtenerFechasDisponibles = () => {
     const fechas = [];
     const hoy = new Date(); // Obtiene la fecha y hora actual
-  
+
     let contadorDias = 0;
     let dia = hoy; // Inicia desde hoy
   
