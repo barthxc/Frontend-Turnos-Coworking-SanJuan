@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import "./Modal.css";
-import axios from "axios"; // Importa Axios
 import { Toaster, toast } from 'sonner'
 import Alerta from "../Alerta/Alerta"; // Importa tu componente Alerta
 import clienteAxios from "../../config/axios";
@@ -164,7 +163,7 @@ const fechaISO = fechaActual.toISOString().split("T")[0];
 
     try {
       // Enviar los datos al servidor para guardarlos
-      const response = await axios.post("http://localhost:4000/api/inicio", {
+      const response = await clienteAxios.post("/inicio", {
         id,
         fecha,
         nombre,
@@ -172,7 +171,7 @@ const fechaISO = fechaActual.toISOString().split("T")[0];
         email,
       });
 
-      const responseLog = await axios.post("http://localhost:4000/api/log",{
+      const responseLog = await clienteAxios.post("/log",{
         nombreEstacion,
         equipo:tieneEquipo,
         contrasena,
