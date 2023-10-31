@@ -21,25 +21,56 @@ const Administrador = () => {
     toast('No hay reservas para esta Estación',{
       action:{
         label:'Volver',
-        onClick: () => setEstacionSeleccionada(null)
+        onClick: () => {
+          setEstacionSeleccionada(null);
+          setSelectedEstacion('');
+        }
                     
       },
     })
     console.log('vacio');
   }
 
-  const resetearFormulario = () => {};
+
 
   useEffect(() => {
     clienteAxios
       .get("/estaciones-con-reservas")
       .then((response) => {
-        setdatosEstacionesReservas(response.data);
-        //Almaceno aquí todos los nombres de las estaciones para validar que nadie crea una igual. SE DEBE QUITAR EN ADMNISTRADOR
-        setEstacionesExistentes(
-          response.data.map((estacion) => estacion.nombre)
-        );
-        console.log(response.data);
+        //Se filtra todas las reservas de forma que aparezca solo las fechas de hoy + la del día de ayer
+        const estacionesFiltradas = response.data.map(estacion => {
+          const reservasFuturas = estacion.reservas.filter(reserva => {
+            const fechaReservaString = reserva.fecha;
+            const [fechaParte, horaParte] = fechaReservaString.split(' ');
+  
+            const [dia, mes, anio] = fechaParte.split('-');
+            const [hora, minutos] = horaParte.split(':');
+  
+            const fechaReserva = new Date(anio, mes - 1, dia, hora, minutos);
+  
+            const fechaActual = new Date();
+            fechaActual.setHours(fechaActual.getHours() - 10); // Restar 10 horas
+            return fechaReserva >= fechaActual;
+          });
+          console.log(reservasFuturas);
+          return {
+            ...estacion,
+            reservas: reservasFuturas
+          };
+        })
+
+        setdatosEstacionesReservas(estacionesFiltradas);
+        
+        
+                
+        
+                /*Almaceno aquí todos los nombres de las estaciones para validar que nadie crea una igual. SE DEBE QUITAR EN ADMNISTRADOR
+                setEstacionesExistentes(
+                  response.data.map((estacion) => estacion.nombre)
+                );
+                console.log(response.data);
+                */
+
       })
       .catch((error) => {
         console.error("Error al hacer la petición:", error);
@@ -79,23 +110,37 @@ const Administrador = () => {
 
 
   const handleChange = async (e) => {
-    setSelectedEstacion(e.target.value); // Actualiza el estado con el nuevo valor seleccionado
-    const idEstacion = e.target.value; // Obtiene el nuevo valor seleccionado
-    console.log(idEstacion);
-  
-    try {
-      const response = await clienteAxios.get(`/estaciones-reservas-id/${idEstacion}`);
-      setEstacionSeleccionada(response.data); // Actualiza el estado con los nuevos datos obtenidos
-      console.log(datosEstacionesReservas);
-    } catch (error) {
-      console.error('Error al obtener datos de la estación', error);
-    }
-  };
+  setSelectedEstacion(e.target.value);
+
+  try {
+    const response = await clienteAxios.get(`/estaciones-reservas-id/${e.target.value}`);
+    
+    const estacionConReservasFuturas = {
+      ...response.data,
+      reservas: response.data.reservas.filter(reserva => {
+        const fechaReservaString = reserva.fecha;
+        const [fechaParte, horaParte] = fechaReservaString.split(' ');
+
+        const [dia, mes, anio] = fechaParte.split('-');
+        const [hora, minutos] = horaParte.split(':');
+
+        const fechaReserva = new Date(anio, mes - 1, dia, hora, minutos);
+
+        const fechaActual = new Date();
+        fechaActual.setHours(fechaActual.getHours() - 10); 
+        return fechaReserva >= fechaActual;
+      })
+    };
+
+    setEstacionSeleccionada(estacionConReservasFuturas);
+  } catch (error) {
+    console.error('Error al obtener datos de la estación', error);
+  }
+};
+
   
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  };
+
 
   return (
     <div className="estaciones">
@@ -121,6 +166,7 @@ const Administrador = () => {
       <th>Nombre Cliente</th>
       <th>DNI</th>
       <th>Email</th>
+      <th>Telefono</th>
       <th>Eliminar Reserva</th>
     </tr>
   </thead>
@@ -154,10 +200,12 @@ const Administrador = () => {
           <td>{reserva.nombre}</td>
           <td>{reserva.dni}</td>
           <td>{reserva.email}</td>
+          <td>{reserva.telefono}</td>
           <td>
             <button
               onClick={() =>
                 handleEliminar(
+                  reserva._id,
                   reserva.nombre,
                   estacionSeleccionada.nombreEstacion,
                   reserva.idReserva
@@ -190,6 +238,7 @@ const Administrador = () => {
               <td>{reserva.nombre}</td>
               <td>{reserva.dni}</td>
               <td>{reserva.email}</td>
+              <td>{reserva.telefono}</td>
               <td>
                 <button
                   onClick={() =>

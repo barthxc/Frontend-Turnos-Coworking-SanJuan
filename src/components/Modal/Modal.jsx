@@ -10,8 +10,13 @@ const Modal = ({ id, onClose, nombreEstacion, tieneEquipo, contrasena }) => {
   const [fechasDisponibles, setFechasDisponibles] = useState([]);
   const [nombre, setNombre] = useState("");
   const [dni, setDni] = useState("");
+  const [telefono,setTelefono]= useState("");
+
+
   const [email, setEmail] = useState("");
   const [fecha, setFecha] = useState("");
+
+
   const [alerta, setAlerta] = useState({});
 
   const resetearFormulario = () => {
@@ -19,6 +24,7 @@ const Modal = ({ id, onClose, nombreEstacion, tieneEquipo, contrasena }) => {
     setDni("");
     setEmail("");
     setFecha("");
+    setTelefono("");
     const select = document.getElementById("fechas");
     select.value = "";
   };
@@ -162,39 +168,48 @@ const fechaISO = fechaActual.toISOString().split("T")[0];
     }
 
     try {
-      // Enviar los datos al servidor para guardarlos
       const response = await clienteAxios.post("/inicio", {
-        id,
-        fecha,
-        nombre,
-        dni,
-        email,
-      });
-
-      const responseLog = await clienteAxios.post("/log",{
-        nombreEstacion,
-        equipo:tieneEquipo,
-        contrasena,
-        fecha,
-        nombrePersona:nombre,
-        dniPersona:dni,
-        emailPersona:email
+          id,
+          fecha,
+          nombre,
+          dni,
+          email,
+          telefono
       });
 
       // Verificar si la reserva se guardó correctamente
-      if (response.data.reserva && responseLog.data.log) {
-        toast.success('Reserva guardada correctamente. Revisa tu correo');
-        resetearFormulario();
-        obtenerDatos();
+      if (response.data.reserva) {
+          const idReserva = response.data.reserva._id; // Obtener el ID de la reserva
+          console.log(`el id de mi reserva lcoooo ${idReserva}`);
+          const responseLog = await clienteAxios.post("/log", {
+              // Pasar el ID de la reserva al crear el log
+              idReserva,
+              nombreEstacion,
+              equipo: tieneEquipo,
+              contrasena,
+              fecha,
+              nombrePersona: nombre,
+              dniPersona: dni,
+              emailPersona: email,
+              telefono
+          });
 
+          if (responseLog.data.log) {
+              toast.success('Reserva guardada correctamente. Revisa tu correo');
+              resetearFormulario();
+              obtenerDatos();
+              setAlerta({});
+          } else {
+              setAlerta({ msg: "Error al guardar el log", error: true });
+          }
       } else {
-        setAlerta({ msg: "Error al guardar la reserva", error: true });
+          setAlerta({ msg: "Error al guardar la reserva", error: true });
       }
-    } catch (error) {
+  } catch (error) {
       console.error(error);
       setAlerta({ msg: "Error al comunicarse con el servidor", error: true });
-    }
-  };
+  }
+};
 
   const { msg } = alerta;
 
@@ -220,13 +235,24 @@ const fechaISO = fechaActual.toISOString().split("T")[0];
           </div>
 
           <div className="form-group">
-            <label htmlFor="name">DNI:</label>
+            <label htmlFor="dni">DNI:</label>
             <input
               type="text"
               id="dni"
               name="dni"
               value={dni}
               onChange={(e) => setDni(e.target.value)}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="tel">Telefono (agrega código de país)</label>
+            <input
+              type="tel"
+              id="tel"
+              name="tel"
+              value={telefono}
+              onChange={(e) => setTelefono(e.target.value)}
             />
           </div>
 
