@@ -6,6 +6,8 @@ import Alerta from "../components/Alerta/Alerta";
 import clienteAxios from "../config/axios";
 
 const Estaciones = () => {
+
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [datosEstaciones, setdatosEstaciones] = useState([]);
   const [isEdicion, setIsEdicion] = useState(false);
@@ -149,46 +151,48 @@ const Estaciones = () => {
   return (
     <div className="estaciones">
       <h2>Estaciones</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Equipo</th>
-            <th>Contraseña</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {datosEstaciones.map((estacion) => (
-            <tr key={estacion._id}>
-              <td>{estacion.nombre}</td>
-              <td>{estacion.equipo ? "Sí" : "No"}</td>
-              <td>
-                {estacion.contrasena ? estacion.contrasena : "No tiene equipo"}
-              </td>
-              <td>
-                <button onClick={() => handleModificar(estacion._id)}>
-                  Modificar
-                </button>
-                <button
-                  onClick={() => handleEliminar(estacion._id, estacion.nombre)}
-                >
-                  Eliminar
-                </button>
-              </td>
+      <div className="table-responsive">
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Equipo</th>
+              <th>Contraseña</th>
+              <th>Acciones</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {datosEstaciones.map((estacion) => (
+              <tr key={estacion._id}>
+                <td>{estacion.nombre}</td>
+                <td>{estacion.equipo ? "Sí" : "No"}</td>
+                <td>
+                  {estacion.contrasena ? estacion.contrasena : "No tiene equipo"}
+                </td>
+                <td>
+                  <button onClick={() => handleModificar(estacion._id)}>
+                    Modificar
+                  </button>
+                  <button
+                    onClick={() => handleEliminar(estacion._id, estacion.nombre)}
+                  >
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <button onClick={handleAgregar}>Agregar Estación</button>
-      <Toaster position="top-right" closeButton richColors/>
+      <Toaster position="top-right" closeButton richColors />
       {isModalOpen && (
         <div className="modal-estacion">
           <div className="modal-content">
             <span className="close" onClick={() => setIsModalOpen(false)}>
               &times;
             </span>
-            <h2>{isEdicion ? "Editar Estacion" : "Añadir Nueva Estación"}</h2>
+            <h2>{isEdicion ? "Editar Estación" : "Añadir Nueva Estación"}</h2>
             {msg && <Alerta alerta={alerta} />}
             <form onSubmit={handleSubmit}>
               <div className="form-group">
@@ -212,7 +216,7 @@ const Estaciones = () => {
                       checked={tieneEquipo}
                       onChange={() => {
                         setTieneEquipo(true);
-                        setContrasena(""); // Establece la contraseña como vacía al seleccionar "SI"
+                        setContrasena("");
                       }}
                     />
                     SI

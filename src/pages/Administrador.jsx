@@ -3,8 +3,15 @@ import { Toaster, toast } from "sonner";
 import "./pages.css";
 import "./ModalEstacion.css";
 import clienteAxios from "../config/axios";
+import useAuth from "../hooks/useAuth";
+
 
 const Administrador = () => {
+  const {auth} = useAuth();
+  if (!auth.isAuthenticated) {
+    return null; 
+  }
+
   const [datosEstacionesReservas, setdatosEstacionesReservas] = useState([]);
   const [
     actualizarDatosEstacionesReservas,
@@ -147,118 +154,120 @@ const Administrador = () => {
       <h2>Administrador de Reservas</h2>
 
       <form>
-      <select value={selectedEstacion} onChange={handleChange}>
-        <option value="" disabled default>--Selecciona una estación--</option>
-        {datosEstacionesReservas.map((estacion,index) => (
-          <option key={estacion.idEstacion} value={estacion.idEstacion}>
-            {estacion.nombreEstacion}
+        <select value={selectedEstacion} onChange={handleChange}>
+          <option value="" disabled default>
+            --Selecciona una estación--
           </option>
-        ))}
-      </select>
-    </form>
-    <table>
-  <thead>
-    <tr>
-      <th>Nombre Estacion</th>
-      <th>Equipo</th>
-      <th>Contraseña</th>
-      <th>Fecha</th>
-      <th>Nombre Cliente</th>
-      <th>DNI</th>
-      <th>Email</th>
-      <th>Telefono</th>
-      <th>Eliminar Reserva</th>
-    </tr>
-  </thead>
-  <tbody>
-  {estacionSeleccionada && estacionSeleccionada.reservas.length === 0 && (
-  // Ejecuta código cuando estacionSeleccionada está definida y reservas está vacío
-  reservasVacias()
-)}
+          {datosEstacionesReservas.map((estacion, index) => (
+            <option key={estacion.idEstacion} value={estacion.idEstacion}>
+              {estacion.nombreEstacion}
+            </option>
+          ))}
+        </select>
+      </form>
 
-
-  {estacionSeleccionada
-  ? estacionSeleccionada.reservas.map((reserva, reservaIndex) => {
-
-
-      return (
-        <tr key={reservaIndex}>
-          {reservaIndex === 0 && (
-            <>
-              <td rowSpan={estacionSeleccionada.reservas.length}>
-                {estacionSeleccionada.nombreEstacion}
-              </td>
-              <td rowSpan={estacionSeleccionada.reservas.length}>
-                {estacionSeleccionada.equipo ? "Si" : "No"}
-              </td>
-              <td rowSpan={estacionSeleccionada.reservas.length}>
-                {estacionSeleccionada.contrasena || "No tiene equipo"}
-              </td>
-            </>
-          )}
-          <td>{reserva.fecha}</td>
-          <td>{reserva.nombre}</td>
-          <td>{reserva.dni}</td>
-          <td>{reserva.email}</td>
-          <td>{reserva.telefono}</td>
-          <td>
-            <button
-              onClick={() =>
-                handleEliminar(
-                  reserva._id,
-                  reserva.nombre,
-                  estacionSeleccionada.nombreEstacion,
-                  reserva.idReserva
-                )
-              }
-            >
-              Eliminar
-            </button>
-          </td>
-        </tr>
-      );
-    })
-  : datosEstacionesReservas.map((estacion, index) =>
-          estacion.reservas.map((reserva, reservaIndex) => (
-            <tr key={reservaIndex}>
-              {reservaIndex === 0 && (
-                <>
-                  <td rowSpan={estacion.reservas.length}>
-                    {estacion.nombreEstacion}
-                  </td>
-                  <td rowSpan={estacion.reservas.length}>
-                    {estacion.equipo ? "Si" : "No"}
-                  </td>
-                  <td rowSpan={estacion.reservas.length}>
-                    {estacion.contrasena || "No tiene equipo"}
-                  </td>
-                </>
-              )}
-              <td>{reserva.fecha}</td>
-              <td>{reserva.nombre}</td>
-              <td>{reserva.dni}</td>
-              <td>{reserva.email}</td>
-              <td>{reserva.telefono}</td>
-              <td>
-                <button
-                  onClick={() =>
-                    handleEliminar(
-                      reserva.nombre,
-                      estacion.nombreEstacion,
-                      reserva.idReserva
-                    )
-                  }
-                >
-                  Eliminar
-                </button>
-              </td>
+      <div className="table-responsive">
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>Nombre Estacion</th>
+              <th>Equipo</th>
+              <th>Contraseña</th>
+              <th>Fecha</th>
+              <th>Nombre Cliente</th>
+              <th>DNI</th>
+              <th>Email</th>
+              <th>Telefono</th>
+              <th>Eliminar Reserva</th>
             </tr>
-          ))
-        )}
-  </tbody>
-</table>
+          </thead>
+          <tbody>
+            {estacionSeleccionada && estacionSeleccionada.reservas.length === 0 && (
+              <tr>
+                <td colSpan="9">No hay reservas para esta estación</td>
+              </tr>
+            )}
 
-      
+            {estacionSeleccionada
+              ? estacionSeleccionada.reservas.map((reserva, reservaIndex) => {
+                  return (
+                    <tr key={reservaIndex}>
+                      {reservaIndex === 0 && (
+                        <>
+                          <td rowSpan={estacionSeleccionada.reservas.length}>
+                            {estacionSeleccionada.nombreEstacion}
+                          </td>
+                          <td rowSpan={estacionSeleccionada.reservas.length}>
+                            {estacionSeleccionada.equipo ? "Si" : "No"}
+                          </td>
+                          <td rowSpan={estacionSeleccionada.reservas.length}>
+                            {estacionSeleccionada.contrasena || "No tiene equipo"}
+                          </td>
+                        </>
+                      )}
+                      <td>{reserva.fecha}</td>
+                      <td>{reserva.nombre}</td>
+                      <td>{reserva.dni}</td>
+                      <td>{reserva.email}</td>
+                      <td>{reserva.telefono}</td>
+                      <td>
+                        <button
+                          onClick={() =>
+                            handleEliminar(
+                              reserva._id,
+                              reserva.nombre,
+                              estacionSeleccionada.nombreEstacion,
+                              reserva.idReserva
+                            )
+                          }
+                        >
+                          Eliminar
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
+              : datosEstacionesReservas.map((estacion, index) =>
+                  estacion.reservas.map((reserva, reservaIndex) => (
+                    <tr key={reservaIndex}>
+                      {reservaIndex === 0 && (
+                        <>
+                          <td rowSpan={estacion.reservas.length}>
+                            {estacion.nombreEstacion}
+                          </td>
+                          <td rowSpan={estacion.reservas.length}>
+                            {estacion.equipo ? "Si" : "No"}
+                          </td>
+                          <td rowSpan={estacion.reservas.length}>
+                            {estacion.contrasena || "No tiene equipo"}
+                          </td>
+                        </>
+                      )}
+                      <td>{reserva.fecha}</td>
+                      <td>{reserva.nombre}</td>
+                      <td>{reserva.dni}</td>
+                      <td>{reserva.email}</td>
+                      <td>{reserva.telefono}</td>
+                      <td>
+                        <button
+                          onClick={() =>
+                            handleEliminar(
+                              reserva.nombre,
+                              estacion.nombreEstacion,
+                              reserva.idReserva
+                            )
+                          }
+                        >
+                          Eliminar
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+          </tbody>
+        </table>
+      </div>
+
       <Toaster position="top-right" closeButton richColors />
     </div>
   );

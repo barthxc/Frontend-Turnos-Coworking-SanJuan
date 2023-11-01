@@ -14,6 +14,8 @@ const Inicio = () => {
   const [selectedEquipo,setSelectedEquipo] = useState(null);
   const [selectedContraseña,setSelectedContraseña] = useState(null);
 
+
+
   const openModal = (id, nombre, equipo, contraseña) => {
     setIsModalOpen(true);
     setSelectedItemId(id);
@@ -41,6 +43,7 @@ const Inicio = () => {
   //De esta manera se actualizarán los datos de la reserva y podre manejar
   //en el modal algunas validaciones 
 
+  console.log(isModalOpen);
 
   return (
     <div className="container">

@@ -10,6 +10,7 @@
     max-width: 600px; /* Establece un ancho máximo */
     width: 90%; /* Ajusta el ancho según tus necesidades */
     box-sizing: border-box;
+    display: block;
 }
 
 /* Modal.css */
