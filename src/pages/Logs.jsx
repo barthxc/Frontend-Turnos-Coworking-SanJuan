@@ -9,10 +9,6 @@ import "./pages.css";
 import "./ModalEstacion.css";
 
 const Logs = () => {
-  const {auth} = useAuth();
-  if (!auth.isAuthenticated) {
-    return null; // O puedes redirigir a una página de inicio de sesión
-  }
 
 
   const [isModalOpen, setIsModalOpen] = useState(false);
