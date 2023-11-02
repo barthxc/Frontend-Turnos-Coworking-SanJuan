@@ -1,6 +1,5 @@
-
+import "./Landing.css";
 import { useNavigate } from "react-router-dom";
-
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -9,22 +8,20 @@ const Landing = () => {
     navigate(route);
   };
 
-  const styleImg = {
-    width: '1300px',
-    height: '600px'
-  };
   return (
     <>
-      <div className=" justify-content-center" >
-        <img src="./habitacion-vacia-sillas-escritorios.jpg" alt="" style={styleImg}/>
-        <div className="text-center">
-          <button className="btn btn-sm btn-info" role="button" onClick={() => handleNavigation("/reserva")}>
-            <span className="btn btn-sm btn-info" role="button">
-              Reserva Ahora
-            </span>
-          </button>
-        </div>
-      </div>
+      <section className="custom-section">
+        <h1 className="custom-heading"><span className="coworking">Coworking</span> <span className="ciudad">San Juan</span></h1>
+        <p className="custom-paragraph">
+          Reserva espacios de trabajo para el desarrollo profesional de tus proyectos!
+        </p>
+        <button
+          className="custom-button"
+          onClick={() => handleNavigation("/reserva")}
+        >
+          Reserva ahora
+        </button>
+      </section>
     </>
   );
 };

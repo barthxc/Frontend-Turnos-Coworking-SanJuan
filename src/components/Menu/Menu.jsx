@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Toaster, toast } from "sonner";
 import clienteAxios from "../../config/axios";
+import './Menu.css';
 
 import useAuth from "../../hooks/useAuth";
 
@@ -56,7 +57,7 @@ function Menu() {
         <nav className="navbar navbar-expand-lg navbar-light bg-light shadow mb-5">
           <div className="container">
             <a href="" className="navbar-brand">
-              <img src="" alt="IMAGEN" />
+              <img src="./logo.png" alt="IMAGEN" />
             </a>
 
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -67,21 +68,21 @@ function Menu() {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav mx-auto">
                        <li className="nav-item">
-                        <button className="nav-link link-underline" onClick={() => handleNavigation("/")}>Inicio</button>
+                        <button className="nav-link" onClick={() => handleNavigation("/")}>Inicio</button>
                        </li>
                        <li className="nav-item ">
-                        <button className="nav-link " onClick={() => handleNavigation("/reserva")}>Estaciones</button>
+                        <button className="nav-link" onClick={() => handleNavigation("/reserva")}>Estaciones</button>
                        </li>
                       {auth.isAuthenticated && (
                       <>
                       <li className="nav-item">
-                        <button className="nav-link" onClick={() => handleNavigation("/estaciones")}>Crear Estaciones</button>
+                        <button className="nav-link admin" onClick={() => handleNavigation("/estaciones")}>Crear Estaciones</button>
                       </li>
                       <li className="nav-item">
-                       <button className="nav-link" onClick={() => handleNavigation("/administrador")}>Administrador</button>
+                       <button className="nav-link admin" onClick={() => handleNavigation("/administrador")}>Administrador</button>
                       </li>
                       <li className="nav-item">
-                        <button className="nav-link" onClick={() => handleNavigation("/logs")}>Logs</button>
+                        <button className="nav-link admin" onClick={() => handleNavigation("/logs")}>Logs</button>
                       </li>
                       </>
             )}

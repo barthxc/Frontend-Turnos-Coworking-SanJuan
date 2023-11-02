@@ -1,6 +1,5 @@
 import { useState } from "react";
 import axios from "axios";
-import "./ModalEstacion.css"; 
 import Alerta from "../Alerta/Alerta";
 
 const ModalEstacion = ({  onClose, isEdicion, selectedEstacionId }) => {

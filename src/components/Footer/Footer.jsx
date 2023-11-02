@@ -1,5 +1,4 @@
-import React from 'react';
-
+import './Footer.css'
 const Footer = () => {
   return (
     <div className="mt-5">
@@ -28,7 +27,7 @@ const Footer = () => {
                   <i className="fas fa-envelope mr-3"></i> sanjuan.tec@gmail.com
                 </p>
                 <p>
-                  <i className="fab fa-whatsapp mr-3"></i> 2645856966
+                  <i className="fab fa-whatsapp mr-3"></i> +54 2645856966
                 </p>
               </div>
 
@@ -60,7 +59,7 @@ const Footer = () => {
               <div className="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3 mb-3">
                 <div className="MazNVa wixui-image rYiAuL">
                   <a
-                    href="https://api.whatsapp.com/send?phone=+5492645856966&amp;text=Hola!%20Me%20interesar%C3%ADa%20m%C3%A1s%20informaci%C3%B3n%20acerca%20de%20tus%20oficinas%20"
+                    href="https://api.whatsapp.com/send?phone=+5492645856966&amp;text=Hola!%20Me%20interesar%C3%ADa%20m%C3%A1s%20informaci%C3%B3n%20acerca%20de%20sus%20oficinas%20"
                     target="_blank"
                     rel="noreferrer noopener"
                     className="j7pOnl"
@@ -84,26 +83,28 @@ const Footer = () => {
         </div>
 
         <div className="text-center p-3" style={{ backgroundColor: '#561D25' }}>
-  © 2023 Copyright:
   <div className="container">
-    <div className="row">
+    <div className="row participantes">
       <div className="col-md-4">
-        <a className="text-white" href="https://mdbootstrap.com/">
+        <a className="text-white developers " href="https://www.linkedin.com/in/pablo-bartolomé-gallardo-8167a81b4/" target="_blank">
           Pablo Bartolomé
         </a>
+        
+        
       </div>
       <div className="col-md-4">
-        <a className="text-white" href="#">
+        <a className="text-white developers" href="https://www.linkedin.com/in/carolinasosa2023/" target="_blank">
           Carolina Sosa
         </a>
       </div>
       <div className="col-md-4">
-        <a className="text-white" href="#">
+        <a className="text-white developers" href="https://www.linkedin.com/in/caren-cozzi/" target="_blank">
           Caren Cozzi
         </a>
       </div>
     </div>
   </div>
+  © 2023 Copyright
 </div>
 
       </footer>

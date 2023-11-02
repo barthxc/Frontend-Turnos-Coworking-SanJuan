@@ -7,13 +7,21 @@ h1{
     display: flex;
     flex-wrap: wrap;
     justify-content:center;
+    gap: 10px;
+  }
+  
+
+  .container-content {
+    margin: 0 4rem 0 4rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:center;
+    gap: 10px;
+    min-height:60vh;
   }
   
 
 
-  /*Estilos para la página Estaciones*/
-
-  /* Estaciones.css */
 
 .estaciones {
     margin: 0 auto;

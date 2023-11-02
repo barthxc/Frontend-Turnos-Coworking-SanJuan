@@ -135,7 +135,25 @@ const logsFiltrados = datosLogs.filter(log => !log.cancelada);
       {isModalOpen && (
         <div className="modal-estacion">
           <div className="modal-content">
-            {/* Resto del código del modal... */}
+            <span className="close" onClick={() => setIsModalOpen(false)}>
+              &times;
+            </span>
+            <h2>Añadir Anotación</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="mensaje">Mensaje:</label>
+                <textarea
+                  type="mensaje"
+                  id="mensaje"
+                  name="mensaje"
+                  value={mensajeLog}
+                  onChange={(e) => setMensajeLog(e.target.value)}
+                />
+              </div>
+
+
+              <button type="submit">Guardar</button>
+            </form>
           </div>
         </div>
       )}

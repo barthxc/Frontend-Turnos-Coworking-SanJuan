@@ -1,25 +1,61 @@
-import {useState,useEffect, createContext} from 'react';
+import { useState, useEffect, createContext } from "react";
 
-const AuthContext = createContext()
+const AuthContext = createContext();
 
-const AuthProvider = ({children}) =>{
+const AuthProvider = ({ children }) => {
+  const [auth, setAuth] = useState({ isAutenticated: false, user: null });
 
-    const [auth,setAuth] = useState({isAutenticated:false, user:null});
+  //Usar Interceptors
+  //Aplicar un useeffect que se ejecute cuando cambie el Auth
+  //Proteger las rutas
+  /*
+        import React, { useState, useEffect } from 'react';
 
-    return(
-        <AuthContext.Provider
-            value={{
-                auth,
-                setAuth
-            }}
-        >
+export const Context = React.createContext();
+
+const AuthProvider = ({ children }) => {
+    
+    // console.log(user)
+    const [state, setState] = useState('');
+    useEffect(() => {
+        const user = JSON.parse(sessionStorage.getItem("user")) || '' 
+        const initialState = user ? { user } : { user: null };
+        setState(initialState)
+    },[])
+
+const setUser = (user) => {
+        setState((prevState) => { return { ...prevState, user } });
+    };
+
+    const context = {
+        ...state,
+        setUser,
+    };
+
+    return (
+        <Context.Provider value={context}>
             {children}
-        </AuthContext.Provider>
-    )
-}
+        </Context.Provider>
+    );
+};
 
-export {
-    AuthProvider
-}
+export default AuthProvider;
+
+
+    */
+
+  return (
+    <AuthContext.Provider
+      value={{
+        auth,
+        setAuth,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export { AuthProvider };
 
 export default AuthContext;

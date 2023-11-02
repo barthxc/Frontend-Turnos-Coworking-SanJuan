@@ -6,7 +6,7 @@ import clienteAxios from "../config/axios";
 import useAuth from "../hooks/useAuth";
 
 
-const Administrador = () => {
+export default function Administrador(){
   const {auth} = useAuth();
   if (!auth.isAuthenticated) {
     return null; 
@@ -273,4 +273,3 @@ const Administrador = () => {
   );
 };
 
-export default Administrador;
