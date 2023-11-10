@@ -44,7 +44,7 @@ function Menu() {
         toast.error('Credenciales incorrectas');
       }
     } catch (error) {
-      toast.error('Hubo un error intentelode nuevo');
+      toast.error('Hubo un error intentelo de nuevo');
     }
   };
 
