@@ -88,9 +88,9 @@ const logsFiltrados = datosLogs.filter(log => !log.cancelada);
     <div className="estaciones">
       <h2>Logs de Reservas</h2>
       <div className="table-responsive">
-        <table className="table table-striped">
+        <table className="table table-striped table-hover">
           <thead>
-            <tr>
+            <tr className="table-warning">
               <th>Estacion</th>
               <th>Equipo</th>
               <th>Contraseña</th>
@@ -99,7 +99,7 @@ const logsFiltrados = datosLogs.filter(log => !log.cancelada);
               <th>DNI</th>
               <th>Email</th>
               <th>Telefono</th>
-              <th>Anotaciones/Incidencias</th>
+              <th>Anotaciones</th>
               <th>Agregar Anotaciones</th>
             </tr>
           </thead>
@@ -118,8 +118,8 @@ const logsFiltrados = datosLogs.filter(log => !log.cancelada);
                 <td>{log.telefono}</td>
                 <td>{log.mensaje ? log.mensaje : 'Vacío'}</td>
                 <td>
-                  <button onClick={() => handleModificar(log._id)}>
-                    Agregar Anotacion
+                  <button className="custom-button" onClick={() => handleModificar(log._id)}>
+                    Agregar
                   </button>
                 </td>
               </tr>
@@ -148,7 +148,7 @@ const logsFiltrados = datosLogs.filter(log => !log.cancelada);
               </div>
 
 
-              <button type="submit">Guardar</button>
+              <button className="custom-button" type="submit">Guardar</button>
             </form>
           </div>
         </div>
@@ -156,8 +156,8 @@ const logsFiltrados = datosLogs.filter(log => !log.cancelada);
 
       <Toaster position="top-right" closeButton richColors/>
 
-      <button onClick={handleActualizarLog}>Actualizar Logs</button>
-      <button onClick={handleDescargarExcel}>Descargar Registros</button>
+      <button className="custom-button" onClick={handleActualizarLog}>Actualizar Logs</button>
+      <button className="custom-button" onClick={handleDescargarExcel}>Descargar Registros</button>
     </div>
   );
 }

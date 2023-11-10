@@ -5,11 +5,10 @@ import "./ModalEstacion.css";
 import clienteAxios from "../config/axios";
 import useAuth from "../hooks/useAuth";
 
-
-export default function Administrador(){
-  const {auth} = useAuth();
+export default function Administrador() {
+  const { auth } = useAuth();
   if (!auth.isAuthenticated) {
-    return null; 
+    return null;
   }
 
   const [datosEstacionesReservas, setdatosEstacionesReservas] = useState([]);
@@ -20,41 +19,37 @@ export default function Administrador(){
   const [estacionesExistentes, setEstacionesExistentes] = useState([]);
 
   //useStates para pasar datos {idEstacion , nombreEstacion , idReserva}
-  const [selectedEstacion, setSelectedEstacion] = useState('');
+  const [selectedEstacion, setSelectedEstacion] = useState("");
   const [estacionSeleccionada, setEstacionSeleccionada] = useState(null);
 
-
-  const reservasVacias = () =>{
-    toast('No hay reservas para esta Estación',{
-      action:{
-        label:'Volver',
+  const reservasVacias = () => {
+    toast("No hay reservas para esta Estación", {
+      action: {
+        label: "Volver",
         onClick: () => {
           setEstacionSeleccionada(null);
-          setSelectedEstacion('');
-        }
-                    
+          setSelectedEstacion("");
+        },
       },
-    })
-    console.log('vacio');
-  }
-
-
+    });
+    console.log("vacio");
+  };
 
   useEffect(() => {
     clienteAxios
       .get("/estaciones-con-reservas")
       .then((response) => {
         //Se filtra todas las reservas de forma que aparezca solo las fechas de hoy + la del día de ayer
-        const estacionesFiltradas = response.data.map(estacion => {
-          const reservasFuturas = estacion.reservas.filter(reserva => {
+        const estacionesFiltradas = response.data.map((estacion) => {
+          const reservasFuturas = estacion.reservas.filter((reserva) => {
             const fechaReservaString = reserva.fecha;
-            const [fechaParte, horaParte] = fechaReservaString.split(' ');
-  
-            const [dia, mes, anio] = fechaParte.split('-');
-            const [hora, minutos] = horaParte.split(':');
-  
+            const [fechaParte, horaParte] = fechaReservaString.split(" ");
+
+            const [dia, mes, anio] = fechaParte.split("-");
+            const [hora, minutos] = horaParte.split(":");
+
             const fechaReserva = new Date(anio, mes - 1, dia, hora, minutos);
-  
+
             const fechaActual = new Date();
             fechaActual.setHours(fechaActual.getHours() - 10); // Restar 10 horas
             return fechaReserva >= fechaActual;
@@ -62,22 +57,18 @@ export default function Administrador(){
           console.log(reservasFuturas);
           return {
             ...estacion,
-            reservas: reservasFuturas
+            reservas: reservasFuturas,
           };
-        })
+        });
 
         setdatosEstacionesReservas(estacionesFiltradas);
-        
-        
-                
-        
-                /*Almaceno aquí todos los nombres de las estaciones para validar que nadie crea una igual. SE DEBE QUITAR EN ADMNISTRADOR
+
+        /*Almaceno aquí todos los nombres de las estaciones para validar que nadie crea una igual. SE DEBE QUITAR EN ADMNISTRADOR
                 setEstacionesExistentes(
                   response.data.map((estacion) => estacion.nombre)
                 );
                 console.log(response.data);
                 */
-
       })
       .catch((error) => {
         console.error("Error al hacer la petición:", error);
@@ -88,66 +79,66 @@ export default function Administrador(){
   const handleEliminar = (nombreReserva, nombreEstacion, idReserva) => {
     // Aquí puedes usar estacionId, nombreEstacion e idReserva para realizar la operación de eliminación
     console.log(idReserva);
-    toast.error(`Seguro que desea eliminar la reserva de ${nombreReserva} de la estacion ${nombreEstacion}`,
-    {
-     action: {
-       label: 'Eliminar',
-       onClick: () => clienteAxios.delete(`/reservas/${idReserva}`)
-       .then(response => {
-         if (response.data.msg) {
-          setActualizarDatosEstacionesReservas(true);
-          setEstacionSeleccionada(null);
-          setSelectedEstacion('');
+    toast.error(
+      `Seguro que desea eliminar la reserva de ${nombreReserva} de la estacion ${nombreEstacion}`,
+      {
+        action: {
+          label: "Eliminar",
+          onClick: () =>
+            clienteAxios
+              .delete(`/reservas/${idReserva}`)
+              .then((response) => {
+                if (response.data.msg) {
+                  setActualizarDatosEstacionesReservas(true);
+                  setEstacionSeleccionada(null);
+                  setSelectedEstacion("");
 
-           toast.success(`Reserva de ${nombreReserva} eliminada correctamente`);
-         } else {
-           toast.error('Error al eliminar la estación');
-         }
-       })
-       .catch(error => {
-         console.error(error);
-         toast.error('Error al comunicarse con el servidor');
-       })
-     },
-   })
-
-  }
-
-
-
+                  toast.success(
+                    `Reserva de ${nombreReserva} eliminada correctamente`
+                  );
+                } else {
+                  toast.error("Error al eliminar la estación");
+                }
+              })
+              .catch((error) => {
+                console.error(error);
+                toast.error("Error al comunicarse con el servidor");
+              }),
+        },
+      }
+    );
+  };
 
   const handleChange = async (e) => {
-  setSelectedEstacion(e.target.value);
+    setSelectedEstacion(e.target.value);
 
-  try {
-    const response = await clienteAxios.get(`/estaciones-reservas-id/${e.target.value}`);
-    
-    const estacionConReservasFuturas = {
-      ...response.data,
-      reservas: response.data.reservas.filter(reserva => {
-        const fechaReservaString = reserva.fecha;
-        const [fechaParte, horaParte] = fechaReservaString.split(' ');
+    try {
+      const response = await clienteAxios.get(
+        `/estaciones-reservas-id/${e.target.value}`
+      );
 
-        const [dia, mes, anio] = fechaParte.split('-');
-        const [hora, minutos] = horaParte.split(':');
+      const estacionConReservasFuturas = {
+        ...response.data,
+        reservas: response.data.reservas.filter((reserva) => {
+          const fechaReservaString = reserva.fecha;
+          const [fechaParte, horaParte] = fechaReservaString.split(" ");
 
-        const fechaReserva = new Date(anio, mes - 1, dia, hora, minutos);
+          const [dia, mes, anio] = fechaParte.split("-");
+          const [hora, minutos] = horaParte.split(":");
 
-        const fechaActual = new Date();
-        fechaActual.setHours(fechaActual.getHours() - 10); 
-        return fechaReserva >= fechaActual;
-      })
-    };
+          const fechaReserva = new Date(anio, mes - 1, dia, hora, minutos);
 
-    setEstacionSeleccionada(estacionConReservasFuturas);
-  } catch (error) {
-    console.error('Error al obtener datos de la estación', error);
-  }
-};
+          const fechaActual = new Date();
+          fechaActual.setHours(fechaActual.getHours() - 10);
+          return fechaReserva >= fechaActual;
+        }),
+      };
 
-  
-
-
+      setEstacionSeleccionada(estacionConReservasFuturas);
+    } catch (error) {
+      console.error("Error al obtener datos de la estación", error);
+    }
+  };
 
   return (
     <div className="estaciones">
@@ -167,7 +158,7 @@ export default function Administrador(){
       </form>
 
       <div className="table-responsive">
-        <table className="table table-striped">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th>Nombre Estacion</th>
@@ -182,11 +173,15 @@ export default function Administrador(){
             </tr>
           </thead>
           <tbody>
-            {estacionSeleccionada && estacionSeleccionada.reservas.length === 0 && (
-              <tr>
-                <td colSpan="9">No hay reservas para esta estación</td>
-              </tr>
-            )}
+            {estacionSeleccionada &&
+              estacionSeleccionada.reservas.length === 0 && (
+                <>
+                  {reservasVacias()}
+                  <tr>
+                    <td colSpan="9">No hay reservas para esta estación</td>
+                  </tr>
+                </>
+              )}
 
             {estacionSeleccionada
               ? estacionSeleccionada.reservas.map((reserva, reservaIndex) => {
@@ -201,7 +196,8 @@ export default function Administrador(){
                             {estacionSeleccionada.equipo ? "Si" : "No"}
                           </td>
                           <td rowSpan={estacionSeleccionada.reservas.length}>
-                            {estacionSeleccionada.contrasena || "No tiene equipo"}
+                            {estacionSeleccionada.contrasena ||
+                              "No tiene equipo"}
                           </td>
                         </>
                       )}
@@ -212,6 +208,7 @@ export default function Administrador(){
                       <td>{reserva.telefono}</td>
                       <td>
                         <button
+                          className="custom-button"
                           onClick={() =>
                             handleEliminar(
                               reserva._id,
@@ -250,6 +247,7 @@ export default function Administrador(){
                       <td>{reserva.telefono}</td>
                       <td>
                         <button
+                          className="custom-button"
                           onClick={() =>
                             handleEliminar(
                               reserva.nombre,
@@ -271,5 +269,4 @@ export default function Administrador(){
       <Toaster position="top-right" closeButton richColors />
     </div>
   );
-};
-
+}

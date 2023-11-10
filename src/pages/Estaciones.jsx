@@ -152,7 +152,7 @@ const Estaciones = () => {
     <div className="estaciones">
       <h2>Estaciones</h2>
       <div className="table-responsive">
-        <table className="table table-striped">
+        <table className="table table-striped table-hover">
           <thead>
             <tr>
               <th>Nombre</th>
@@ -169,11 +169,11 @@ const Estaciones = () => {
                 <td>
                   {estacion.contrasena ? estacion.contrasena : "No tiene equipo"}
                 </td>
-                <td>
-                  <button onClick={() => handleModificar(estacion._id)}>
+                <td className="text-center w-25 ">
+                  <button className="custom-button" onClick={() => handleModificar(estacion._id)}>
                     Modificar
                   </button>
-                  <button
+                  <button className="custom-button"
                     onClick={() => handleEliminar(estacion._id, estacion.nombre)}
                   >
                     Eliminar
@@ -184,7 +184,7 @@ const Estaciones = () => {
           </tbody>
         </table>
       </div>
-      <button onClick={handleAgregar}>Agregar Estación</button>
+      <button className="custom-button" onClick={handleAgregar}>Agregar Estación</button>
       <Toaster position="top-right" closeButton richColors />
       {isModalOpen && (
         <div className="modal-estacion">
